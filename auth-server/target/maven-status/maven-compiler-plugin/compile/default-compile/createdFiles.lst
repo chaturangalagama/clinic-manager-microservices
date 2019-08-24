@@ -1,0 +1,15 @@
+lk\microservices\auth\server\config\HttpStatusReturningAuthenticationFailureHandler.class
+lk\microservices\auth\server\model\CustomUserDetails.class
+lk\microservices\auth\server\controller\LoginController.class
+lk\microservices\auth\server\repository\UserRepository.class
+lk\microservices\auth\server\repository\RoleRepository.class
+lk\microservices\auth\server\config\DatasourceConfig.class
+lk\microservices\auth\server\config\OAuth2AuthorizationServerConfig.class
+lk\microservices\auth\server\AuthServiceMain.class
+lk\microservices\auth\server\config\SecurityConfig.class
+lk\microservices\auth\server\model\AuthResponse.class
+lk\microservices\auth\server\domain\Role.class
+lk\microservices\auth\server\domain\User.class
+lk\microservices\auth\server\config\AdditionalWebConfig.class
+lk\microservices\auth\server\config\HttpStatusReturningAuthenticationSuccessHandler.class
+lk\microservices\auth\server\service\CustomUserDetailsService.class

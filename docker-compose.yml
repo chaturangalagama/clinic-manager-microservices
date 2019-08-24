@@ -1,0 +1,128 @@
+version: "3"
+services:
+    discovery-server:
+        container_name: discovery-server
+        build:
+            context: ./discovery-server
+            args:
+                JAR_FILE: target/discovery-server-0.0.1-SNAPSHOT.jar
+                PORT: 9091
+            dockerfile: Dockerfile
+        image: mschassisdialog/discovery-server:latest
+        ports:
+            - 9091:9091
+        networks:
+            - emp-network
+    # config-server:
+    #     container_name: config-server
+    #     build:
+    #         context: ./config-server
+    #         args:
+    #             JAR_FILE: target/config-server-0.0.1-SNAPSHOT.jar
+    #             PORT: 8888
+    #         dockerfile: Dockerfile
+    #     environment:
+    #         SPRING_APPLICATION_JSON: '{"eureka": {"client": {"serviceUrl": {"defaultZone": "http://discovery-server:8085/eureka"}}}}'
+    #     image: mschassisdialog/config-server:latest
+    #     ports:
+    #         - 8888:8888
+    #     networks:
+    #         - emp-network
+
+    # sample-ms1:
+    #     container_name: sample-ms1
+    #     build:
+    #         context: ./sample-ms1
+    #         dockerfile: Dockerfile
+    #         args:
+    #             JAR_FILE: target/sample-ms1-0.0.1.jar
+    #             SCRIPT_FILE: ./sample-ms1.sh
+    #             SERVICE_NAME: sample-ms1
+    #     environment:
+    #         SPRING_APPLICATION_JSON: '{"spring": {"cloud": {"config": {"uri": "http://config-server:8888"}}}}'
+    #     entrypoint: /sample-ms1-entrypoint.sh
+    #     image: mschassisdialog/sample-ms1:latest
+    #     ports:
+    #         - 8081:8081
+    #     networks:
+    #         - emp-network
+    #     links:
+    #         - config-server:config-server
+    #         - discovery-server:discovery-server
+    #         - zipkin-server:zipkin-server
+    #     depends_on:
+    #         - config-server
+    #         - discovery-server
+    #         - zipkin-server
+    #     logging:
+    #         driver: json-file
+    sample-ms2:
+        container_name: sample-ms2
+        build:
+            context: ./sample-ms2
+            dockerfile: Dockerfile
+            args:
+               JAR_FILE: target/sample-ms2-0.0.1.jar
+               # SCRIPT_FILE: ./sample-ms2.sh
+               # SERVICE_NAME: sample-ms2
+       # environment:
+       #     SPRING_APPLICATION_JSON: '{"spring": {"cloud": {"config": {"uri": "http://config-server:8888"}}}}'
+        # entrypoint: /sample-ms2-entrypoint.sh
+        image: mschassisdialog/sample-ms2:latest
+        ports:
+            - 8082:8082
+        networks:
+            - emp-network
+        links:
+           # - config-server:config-server
+            - discovery-server:discovery-server
+           # - zipkin-server:zipkin-server
+        depends_on:
+          #  - config-server
+            - discovery-server
+          #  - zipkin-server
+        logging:
+            driver: json-file
+    gateway:
+        container_name: gateway
+        build:
+            context: ./gateway
+            dockerfile: Dockerfile
+            args:
+                JAR_FILE: target/gateway-0.0.1-SNAPSHOT.jar
+                PORT: 9999
+        image: mschassisdialog/gateway:latest
+        ports:
+            - 9999:9999
+        networks:
+            - emp-network
+        links:
+            - discovery-server:discovery-server
+            # - zipkin-server:zipkin-server
+        depends_on:
+            - discovery-server
+            # - zipkin-server
+        logging:
+            driver: json-file
+    zipkin-server:
+            container_name: zipkin-server
+            build:
+                context: ./zipkin-module/zipkin-server
+                dockerfile: Dockerfile
+                args:
+                    JAR_FILE: target/zipkin-server-2.10.2-SNAPSHOT-exec.jar
+                    PORT: 9411
+            image: mschassisdialog/zipkin-server:latest
+            ports:
+                - 9411:9411
+            networks:
+                - emp-network
+            links:
+                - discovery-server:discovery-server
+            depends_on:
+                - discovery-server
+            logging:
+                driver: json-file
+networks:
+    emp-network:
+        driver: bridge

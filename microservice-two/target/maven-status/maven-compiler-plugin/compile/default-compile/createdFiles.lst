@@ -1,0 +1,6 @@
+lk\microservices\microservice\two\technical\config\OAuth2ResourceServerConfig.class
+lk\microservices\microservice\two\technical\controller\ApiController.class
+lk\microservices\microservice\two\technical\connector\OAuthClientTest.class
+lk\microservices\microservice\two\MicroserviceTwoMain.class
+lk\microservices\microservice\two\technical\model\AuthResponse.class
+lk\microservices\microservice\two\technical\config\OAuth2ClientConfig.class
