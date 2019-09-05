@@ -11,7 +11,14 @@ CREATE TABLE app_user (
   last_name varchar(255) NOT NULL,
   password varchar(255) NOT NULL,
   username varchar(255) NOT NULL,
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  create_date varchar(255) DEFAULT NULL,
+  last_update varchar(255) DEFAULT NULL,
+  email varchar(255) DEFAULT NULL,
+  status varchar(255) DEFAULT NULL,
+  old_passwords varchar(255) DEFAULT NULL,
+  number_of_login_attempts varchar(255) DEFAULT NULL,
+  context varchar(255) DEFAULT NULL
 );
 
 CREATE TABLE user_role (

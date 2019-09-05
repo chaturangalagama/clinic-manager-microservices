@@ -1,6 +1,7 @@
 package lk.microservices.auth.server.service;
 
 import lk.microservices.auth.server.domain.User;
+import lk.microservices.auth.server.model.CustomUser;
 import lk.microservices.auth.server.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -21,6 +22,23 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
+//    @Override
+//    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+//        User user = userRepository.findByUsername(s);
+//
+//        if(user == null) {
+//            throw new UsernameNotFoundException(String.format("The username %s doesn't exist", s));
+//        }
+//
+//        List<GrantedAuthority> authorities = new ArrayList<>();
+//        user.getRoles().forEach(role -> {
+//            authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
+//        });
+//        UserDetails userDetails = new org.springframework.security.core.userdetails.
+//                User(user.getUsername(), user.getPassword(), authorities);
+//        return userDetails;
+//    }
+
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(s);
@@ -33,8 +51,15 @@ public class CustomUserDetailsService implements UserDetailsService {
         user.getRoles().forEach(role -> {
             authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
         });
-        UserDetails userDetails = new org.springframework.security.core.userdetails.
-                User(user.getUsername(), user.getPassword(), authorities);
-        return userDetails;
+        CustomUser customUser = new CustomUser(user.getUsername(), user.getPassword(), authorities);
+        customUser.setContext(user.getContext());
+        customUser.setEmail(user.getEmail());
+        customUser.setCreateDate(user.getCreateDate());
+        customUser.setFirstName(user.getFirstName());
+        customUser.setLastName(user.getLastName());
+        customUser.setLastUpdate(user.getLastUpdate());
+        customUser.setNumberOfLoginAttempts(user.getNumberOfLoginAttempts());
+        customUser.setStatus(user.getStatus());
+        return customUser;
     }
 }
