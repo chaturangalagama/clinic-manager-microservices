@@ -6,7 +6,6 @@ import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-//@EnableDiscoveryClient
 @SpringBootApplication
 public class MicroserviceOneMain {
 
